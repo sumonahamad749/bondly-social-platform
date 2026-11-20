@@ -8,48 +8,45 @@
 <title>Bondly - Connect Together</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f5f4fc;color:#28243d;min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer;border:0}
-header{height:68px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 7%;box-shadow:0 2px 15px #0000000a}
-.logo{font-size:30px;font-weight:900;color:#6555ed;letter-spacing:-1px}
-.header-text{font-size:13px;color:#777}
-.header-text b{color:#6555ed}
-main{max-width:1050px;margin:35px auto;padding:15px;display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center}
-.welcome{padding:30px}
-.welcome h1{font-size:43px;line-height:1.15;margin:18px 0;color:#28243d}
+body{font-family:Arial,sans-serif;background:#f5f4fc;color:#29243d;min-height:100vh}
+header{background:white;padding:17px 22px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px #0001}
+.logo{font-size:30px;font-weight:900;color:#6855ed}
+.tag{font-size:12px;color:#888}
+main{max-width:950px;margin:35px auto;padding:15px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.welcome{padding:25px}
+.welcome h1{font-size:42px;line-height:1.2;margin:20px 0}
 .welcome h1 span{color:#7058ee}
-.welcome p{color:#777;line-height:1.8;font-size:15px}
-.art{margin-top:28px;border-radius:25px;padding:30px;background:linear-gradient(135deg,#6352e9,#a16bf0);color:white;min-height:190px}
-.art .big{font-size:55px}
-.art h3{margin:12px 0}
-.art p{color:#eee;font-size:13px}
-.form-card{background:white;padding:30px;border-radius:25px;box-shadow:0 12px 40px #3b2a8014}
-.tabs{display:flex;background:#f2f0fb;border-radius:13px;padding:5px;margin-bottom:25px}
-.tabs button{width:50%;padding:12px;border-radius:10px;background:transparent;color:#777;font-weight:bold}
-.tabs button.active{background:#6956eb;color:white;box-shadow:0 4px 12px #6956eb35}
-.form-card h2{font-size:25px;margin-bottom:8px}
-.sub{font-size:13px;color:#888;margin-bottom:24px;line-height:1.6}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:8px;color:#555}
-.field input{width:100%;padding:14px;border:1px solid #e7e5ef;border-radius:11px;outline:none;background:#fcfcff;font-size:14px}
-.field input:focus{border-color:#7663ef;box-shadow:0 0 0 3px #7663ef18}
-.forgot{text-align:right;margin:-3px 0 18px}
-.forgot button{background:none;color:#6855e9;font-size:12px}
-.submit{width:100%;padding:15px;border-radius:12px;background:linear-gradient(100deg,#6251e8,#a16af0);color:white;font-weight:bold;box-shadow:0 6px 15px #6956eb35}
-.switch{text-align:center;font-size:13px;color:#888;margin-top:20px}
-.switch button{background:none;color:#6555ed;font-weight:bold}
-.note{text-align:center;font-size:11px;color:#aaa;margin-top:20px;line-height:1.6}
+.welcome p{color:#777;line-height:1.8;font-size:14px}
+.banner{margin-top:25px;padding:28px;border-radius:22px;background:linear-gradient(135deg,#5545df,#b16df2);color:white}
+.banner div{font-size:48px}
+.banner h3{margin:12px 0}
+.banner p{color:#eee}
+.card{background:white;padding:28px 23px;border-radius:23px;box-shadow:0 10px 35px #35208016}
+.tabs{display:flex;background:#f1effa;padding:5px;border-radius:12px;margin-bottom:25px}
+.tabs button{width:50%;padding:12px;border:0;border-radius:9px;background:transparent;color:#777;font-weight:bold}
+.tabs button.active{background:#6855ed;color:white}
+h2{font-size:24px;margin-bottom:8px}
+.sub{font-size:13px;color:#888;margin-bottom:22px;line-height:1.6}
+.field{margin-bottom:15px}
+label{display:block;font-size:12px;font-weight:bold;margin-bottom:8px}
+input{width:100%;padding:14px;border:1px solid #e5e3ee;border-radius:10px;background:#fcfcff;outline:none;font-size:14px}
+input:focus{border-color:#6855ed}
+.submit{width:100%;padding:15px;background:linear-gradient(100deg,#6251e8,#a16af0);border:0;border-radius:11px;color:white;font-weight:bold;margin-top:5px}
+.switch{text-align:center;color:#888;font-size:13px;margin-top:20px}
+.switch button{border:0;background:none;color:#6855ed;font-weight:bold}
+.forgot{text-align:right;margin-bottom:17px}
+.forgot button{background:none;border:0;color:#6855ed;font-size:12px}
 .hidden{display:none}
+.note{text-align:center;font-size:11px;color:#aaa;margin-top:20px;line-height:1.6}
 footer{text-align:center;color:#aaa;font-size:11px;padding:20px}
-@media(max-width:750px){
- main{grid-template-columns:1fr;gap:12px;margin:12px auto}
- .welcome{padding:15px 10px 5px;text-align:center}
- .welcome h1{font-size:34px;margin:10px 0}
+@media(max-width:700px){
+ main{grid-template-columns:1fr;margin:12px auto;gap:15px}
+ .welcome{text-align:center;padding:12px 8px}
+ .welcome h1{font-size:32px;margin:12px 0}
  .welcome p{font-size:13px}
- .art{display:none}
- .form-card{padding:23px 19px}
- header{padding:0 18px}
+ .banner{display:none}
+ .card{padding:23px 18px}
+ header{padding:15px 18px}
 }
 </style>
 </head>
@@ -57,22 +54,21 @@ footer{text-align:center;color:#aaa;font-size:11px;padding:20px}
 
 <header>
  <div class="logo">Bondly.</div>
- <div class="header-text">Your world. <b>Your people.</b></div>
+ <div class="tag">Connect • Share • Belong</div>
 </header>
 
 <main>
 <section class="welcome">
- <div style="color:#7058ee;font-weight:bold;font-size:13px">WELCOME TO BON​​DLY ✨</div>
- <h1>Connect. Share.<br><span>Belong Together.</span></h1>
- <p>Meet new people, share your moments and stay connected with the people who matter most.</p>
- <div class="art">
-  <div class="big">💜</div>
-  <h3>One platform. Endless connections.</h3>
-  <p>Discover friendships and make every moment special.</p>
+ <h1>Your World.<br><span>Your People.</span></h1>
+ <p>Welcome to Bondly! Connect with friends, share beautiful moments and discover a world of new connections.</p>
+ <div class="banner">
+  <div>💜</div>
+  <h3>Stay Connected</h3>
+  <p>One platform for all your meaningful connections.</p>
  </div>
 </section>
 
-<section class="form-card">
+<section class="card">
  <div class="tabs">
   <button id="loginTab" class="active" onclick="showLogin()">Login</button>
   <button id="registerTab" onclick="showRegister()">Create Account</button>
@@ -81,51 +77,63 @@ footer{text-align:center;color:#aaa;font-size:11px;padding:20px}
  <form id="loginForm" onsubmit="demo(event,'Login')">
   <h2>Welcome Back!</h2>
   <p class="sub">Login to continue your Bondly journey.</p>
+
   <div class="field">
    <label>Email or Mobile Number</label>
    <input type="text" placeholder="Enter email or mobile" required>
   </div>
+
   <div class="field">
    <label>Password</label>
-   <input type="password" placeholder="Enter your password" required>
+   <input type="password" placeholder="Enter password" required>
   </div>
-  <div class="forgot"><button type="button" onclick="alert('Password reset will be available after backend setup.')">Forgot Password?</button></div>
+
+  <div class="forgot">
+   <button type="button" onclick="alert('Password reset will be added later.')">Forgot Password?</button>
+  </div>
+
   <button class="submit" type="submit">Login to Bondly →</button>
-  <p class="switch">New to Bondly? <button type="button" onclick="showRegister()">Create an account</button></p>
+  <p class="switch">New to Bondly? <button type="button" onclick="showRegister()">Create Account</button></p>
  </form>
 
  <form id="registerForm" class="hidden" onsubmit="demo(event,'Registration')">
-  <h2>Create Account</h2>
-  <p class="sub">Join Bondly and start connecting with people.</p>
+  <h2>Join Bondly!</h2>
+  <p class="sub">Create your account and connect with everyone.</p>
+
   <div class="field">
    <label>Full Name</label>
-   <input type="text" placeholder="Enter your full name" required>
+   <input type="text" placeholder="Your full name" required>
   </div>
+
   <div class="field">
    <label>Email Address</label>
-   <input type="email" placeholder="Enter your email" required>
+   <input type="email" placeholder="Your email address" required>
   </div>
+
   <div class="field">
    <label>Mobile Number</label>
-   <input type="tel" placeholder="Enter mobile number" required>
+   <input type="tel" placeholder="Your mobile number" required>
   </div>
+
   <div class="field">
-   <label>Create Password</label>
+   <label>Password</label>
    <input type="password" minlength="8" placeholder="At least 8 characters" required>
   </div>
+
   <div class="field">
    <label>Confirm Password</label>
    <input type="password" minlength="8" placeholder="Confirm password" required>
   </div>
+
   <button class="submit" type="submit">Create My Account →</button>
-  <p class="switch">Already have an account? <button type="button" onclick="showLogin()">Login</button></p>
+  <p class="switch">Already registered? <button type="button" onclick="showLogin()">Login</button></p>
  </form>
 
- <p class="note">By continuing, you agree to Bondly's Terms of Service and Privacy Policy.</p>
+ <p class="note">By continuing, you agree to Bondly's Terms and Privacy Policy.</p>
 </section>
 </main>
 
-<footer>© 2026 Bondly. Made for meaningful connections.</footer>
+<footer>© 2026 Bondly. All rights reserved.</footer>
 
 <script>
 function showLogin(){
@@ -142,8 +150,9 @@ function showRegister(){
 }
 function demo(event,action){
  event.preventDefault();
- alert(action+' page design is ready. Real account service will be connected later.');
+ alert(action+' design is ready. Real account service will be connected later.');
 }
 </script>
+
 </body>
 </html>

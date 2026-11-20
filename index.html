@@ -1,0 +1,162 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6555ed">
+<title>Bondly - Social Network</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f5f6fc;color:#25243b;padding-bottom:85px}
+button{cursor:pointer;border:0;font:inherit}
+.topbar{height:65px;background:white;display:flex;align-items:center;justify-content:space-between;padding:0 17px;position:sticky;top:0;z-index:10;box-shadow:0 2px 12px #0001}
+.logo{font-size:29px;font-weight:900;background:linear-gradient(90deg,#5546e9,#b16cf1);color:transparent;background-clip:text}
+.icons{display:flex;gap:10px}
+.iconbtn{width:40px;height:40px;border-radius:50%;background:#f1efff;color:#6555ed;font-size:20px}
+.container{max-width:620px;margin:auto}
+.hero{margin:16px 13px;padding:25px 20px;border-radius:22px;color:white;background:linear-gradient(130deg,#5145db,#8264f5,#b36af3);box-shadow:0 8px 20px #6555ed35}
+.hero h2{font-size:24px;margin-bottom:10px}
+.hero p{font-size:13px;line-height:1.7;color:#f0eaff}
+.hero button{margin-top:15px;padding:10px 17px;border-radius:20px;color:white;background:#ffffff2b;font-weight:bold;font-size:12px}
+.heading{padding:17px 17px 12px;display:flex;justify-content:space-between;align-items:center}
+.heading h3{font-size:17px}
+.heading span{font-size:12px;color:#6555ed}
+.stories{display:flex;gap:13px;overflow-x:auto;padding:5px 15px 15px}
+.story{min-width:68px;text-align:center;font-size:11px;color:#666}
+.storypic{width:62px;height:62px;border-radius:21px;margin:0 auto 7px;display:grid;place-items:center;color:white;font-size:25px;border:3px solid white;outline:2px solid #806af0}
+.add{background:linear-gradient(135deg,#6555ed,#bb70f2);outline:none}
+.s1{background:linear-gradient(130deg,#fa9b82,#e45e9e)}
+.s2{background:linear-gradient(130deg,#54c6b4,#337bc4)}
+.s3{background:linear-gradient(130deg,#ffbb62,#f06d72)}
+.s4{background:linear-gradient(130deg,#9d7bf4,#5655cb)}
+.card{background:white;margin:10px 13px;padding:15px;border-radius:19px;box-shadow:0 4px 17px #3331}
+.row{display:flex;align-items:center;gap:11px}
+.avatar{width:43px;height:43px;border-radius:50%;background:linear-gradient(130deg,#7864f2,#c17bf3);display:grid;place-items:center;color:white;font-size:21px;flex-shrink:0}
+.input{flex:1;background:#f4f4fa;border-radius:25px;padding:13px;color:#888;font-size:13px}
+.tools{display:flex;justify-content:space-around;border-top:1px solid #eee;margin-top:14px;padding-top:13px}
+.tools button{background:white;color:#777;font-size:12px}
+.posthead{display:flex;align-items:center;gap:10px}
+.postinfo{flex:1}
+.postinfo strong{font-size:13px}
+.postinfo small{display:block;font-size:11px;color:#999;margin-top:4px}
+.more{background:white;color:#999;font-size:20px}
+.posttext{font-size:13px;line-height:1.7;margin:14px 0;color:#45455a}
+.postimg{height:225px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center}
+.postimg h2{font-size:28px}
+.postimg p{font-size:12px;margin-top:9px}
+.img1{background:linear-gradient(135deg,#ff9775,#ee66a7,#a36ce9)}
+.img2{background:linear-gradient(135deg,#29b5ad,#4474e9)}
+.stats{display:flex;justify-content:space-between;color:#999;font-size:11px;padding:13px 0;border-bottom:1px solid #eee}
+.actions{display:flex;justify-content:space-around;padding-top:13px}
+.actions button{background:white;color:#777;font-size:12px}
+.actions button.liked{color:#ef5289}
+.nav{position:fixed;bottom:0;left:0;right:0;height:70px;background:white;display:flex;justify-content:space-around;align-items:center;box-shadow:0 -3px 15px #0001;z-index:20}
+.nav button{background:white;color:#999;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px}
+.nav button.active{color:#6555ed;font-weight:bold}
+.nav b{font-size:21px}
+.nav .create{background:linear-gradient(135deg,#6555ed,#b36af3);color:white;width:45px;height:45px;border-radius:15px;display:grid;place-items:center;font-size:25px}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+ <div class="logo">Bondly.</div>
+ <div class="icons">
+  <button class="iconbtn" onclick="alert('Search')">⌕</button>
+  <button class="iconbtn" onclick="alert('Notifications')">♡</button>
+  <button class="iconbtn" onclick="alert('Inbox')">✉</button>
+ </div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+ <h2>Your world, your people. ✨</h2>
+ <p>Share your moments, discover new friends and stay connected with everyone.</p>
+ <button>WELCOME TO BONDLY →</button>
+</section>
+
+<div class="heading"><h3>Stories</h3><span>See all →</span></div>
+
+<section class="stories">
+ <div class="story"><div class="storypic add">＋</div>Your Story</div>
+ <div class="story"><div class="storypic s1">👩</div>Sarah</div>
+ <div class="story"><div class="storypic s2">👨</div>Alex</div>
+ <div class="story"><div class="storypic s3">👩</div>Maria</div>
+ <div class="story"><div class="storypic s4">🧑</div>David</div>
+</section>
+
+<div class="heading"><h3>Create a Post</h3></div>
+
+<section class="card">
+ <div class="row">
+  <div class="avatar">☺</div>
+  <div class="input" onclick="alert('Post editor coming soon')">What's on your mind?</div>
+ </div>
+ <div class="tools">
+  <button onclick="alert('Photo upload coming soon')">▧ Photo</button>
+  <button onclick="alert('Video coming soon')">▷ Video</button>
+  <button onclick="alert('Feeling coming soon')">☺ Feeling</button>
+ </div>
+</section>
+
+<div class="heading"><h3>Explore Feed</h3><span>Latest ⌄</span></div>
+
+<section class="card">
+ <div class="posthead">
+  <div class="avatar">👩</div>
+  <div class="postinfo"><strong>Sarah Williams</strong><small>2 hours ago · Public</small></div>
+  <button class="more">•••</button>
+ </div>
+ <p class="posttext">Life is beautiful when you surround yourself with positive people. Keep smiling and enjoy every moment! 💜✨</p>
+ <div class="postimg img1">
+  <h2>Beautiful Moments</h2>
+  <p>Make every moment count ✨</p>
+ </div>
+ <div class="stats"><span>💜 248 Likes</span><span>36 Comments · 12 Shares</span></div>
+ <div class="actions">
+  <button onclick="likePost(this)">♡ Like</button>
+  <button onclick="alert('Comments coming soon')">♧ Comment</button>
+  <button onclick="alert('Share coming soon')">↗ Share</button>
+ </div>
+</section>
+
+<section class="card">
+ <div class="posthead">
+  <div class="avatar">👨</div>
+  <div class="postinfo"><strong>Alex Morgan</strong><small>5 hours ago · Public</small></div>
+  <button class="more">•••</button>
+ </div>
+ <p class="posttext">New beginnings, new dreams and new adventures. Let's make today amazing! 🚀</p>
+ <div class="postimg img2">
+  <h2>New Adventures</h2>
+  <p>Explore · Connect · Grow</p>
+ </div>
+ <div class="stats"><span>💜 125 Likes</span><span>18 Comments · 8 Shares</span></div>
+ <div class="actions">
+  <button onclick="likePost(this)">♡ Like</button>
+  <button onclick="alert('Comments coming soon')">♧ Comment</button>
+  <button onclick="alert('Share coming soon')">↗ Share</button>
+ </div>
+</section>
+
+</main>
+
+<nav class="nav">
+ <button class="active"><b>⌂</b>Home</button>
+ <button><b>♧</b>Friends</button>
+ <button><span class="create">＋</span>Create</button>
+ <button><b>✉</b>Inbox</button>
+ <button><b>☺</b>Profile</button>
+</nav>
+
+<script>
+function likePost(button){
+ button.classList.toggle('liked');
+ button.innerHTML=button.classList.contains('liked')?'♥ Liked':'♡ Like';
+}
+</script>
+
+</body>
+</html>

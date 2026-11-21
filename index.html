@@ -3,207 +3,296 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bondly — Beyond Connection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bondly - Connect Together</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#090812;--panel:#151322;--purple:#925cff;--text:#f8f6ff;--muted:#9994ad}
-body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}
-header{height:70px;background:#100e1c;border-bottom:1px solid #29233d;display:flex;align-items:center;justify-content:space-between;padding:0 6%;position:sticky;top:0;z-index:10}
-.logo{font-size:29px;font-weight:900;letter-spacing:-1px;color:#b48aff}
-.logo span{color:white}
-.header-btn{background:#211a35;color:white;border:1px solid #46326c;border-radius:12px;padding:10px 15px}
-#auth{width:min(420px,92%);margin:55px auto;background:linear-gradient(145deg,#191528,#100e1b);padding:30px;border:1px solid #302449;border-radius:25px;box-shadow:0 20px 80px #7039df22}
-.brand{text-align:center;font-size:45px;margin-bottom:8px}
-#auth h1{text-align:center;font-size:27px;margin-bottom:9px}
-.subtitle{text-align:center;color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:25px}
-input,textarea{width:100%;background:#0d0b17;border:1px solid #373047;color:white;padding:15px;border-radius:13px;margin:8px 0;font-size:15px;outline:none}
-input:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 12px #925cff33}
-.primary{background:linear-gradient(110deg,#7741e8,#b16bff);color:white;border:0;border-radius:13px;padding:14px;font-weight:bold;width:100%;cursor:pointer;box-shadow:0 7px 25px #925cff30}
-.switch{text-align:center;color:#b48aff;margin-top:20px;cursor:pointer;font-size:14px}
-#message{text-align:center;color:#c7aaff;font-size:13px;margin-top:13px}
-#app{display:none;max-width:1120px;margin:auto;padding:20px 15px 95px}
-.hero{background:radial-gradient(ellipse at 90% 10%,#8148d866,transparent 45%),linear-gradient(120deg,#211438,#111020);border:1px solid #49336a;border-radius:25px;padding:28px;margin-bottom:22px;position:relative;overflow:hidden}
-.hero small{color:#c5a4ff;letter-spacing:2px}
-.hero h1{font-size:29px;margin:12px 0}
-.hero p{color:#c3bdd1;font-size:14px;line-height:1.6}
-.hero .spark{position:absolute;right:25px;top:20px;font-size:75px;opacity:.8}
-.section-title{font-size:18px;margin:20px 0 14px}
-.stories{display:flex;gap:17px;overflow-x:auto;padding:5px 2px 17px}
-.story{text-align:center;min-width:66px;font-size:12px;color:#c9c3d6}
-.ring{width:60px;height:60px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#8d4aff,#f17bc4);margin:0 auto 7px}
-.ring div{background:#21182e;width:100%;height:100%;border-radius:50%;display:grid;place-items:center;font-size:24px}
-.card{background:var(--panel);border:1px solid #29243a;border-radius:19px;padding:18px;margin-bottom:17px}
-.composer textarea{height:85px;resize:vertical}
-.composer button{width:auto;padding:12px 22px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:20px}
-.post-head{display:flex;align-items:center;gap:11px}
-.avatar{width:43px;height:43px;border-radius:50%;background:linear-gradient(135deg,#8b50f4,#e17bbd);display:grid;place-items:center;font-weight:bold;font-size:18px}
-.post-head small{display:block;color:var(--muted);margin-top:5px}
-.post-text{white-space:pre-wrap;line-height:1.7;margin:18px 0;overflow-wrap:anywhere}
-.post-actions{display:flex;gap:8px;border-top:1px solid #302b40;padding-top:13px}
-.post-actions button{flex:1;background:#211b30;color:#d6c2ff;border:0;border-radius:11px;padding:11px}
-.side p{padding:12px 0;border-bottom:1px solid #302b40;color:#c4bdd3;font-size:14px}
-nav{position:fixed;bottom:0;left:0;right:0;background:#131020ed;backdrop-filter:blur(15px);border-top:1px solid #393047;display:flex;justify-content:space-around;padding:12px 3px;z-index:15}
-nav button{background:transparent;color:#aaa2bb;font-size:12px;border:0;display:flex;flex-direction:column;align-items:center;gap:5px}
-nav button strong{font-size:21px}
-nav button.active{color:#b58aff}
-@media(max-width:720px){.layout{grid-template-columns:1fr}.side{display:none}.hero h1{font-size:25px}#app{padding:12px 11px 90px}header{padding:0 17px}}
+body{font-family:Arial,sans-serif;background:#f3f5fa;color:#202438}
+header{background:linear-gradient(120deg,#4938c9,#1678e8);color:white;padding:20px;position:sticky;top:0;z-index:5}
+.top{max-width:850px;margin:auto;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
+.logo span{color:#9fe7ff}
+button{border:0;border-radius:10px;padding:11px 16px;font-weight:bold;cursor:pointer}
+.logout{background:white;color:#4938c9}
+main{max-width:700px;margin:25px auto;padding:0 14px}
+.card{background:white;padding:20px;border-radius:17px;margin-bottom:18px;box-shadow:0 5px 22px #182b5010}
+h2{margin-bottom:15px}
+input,textarea{width:100%;padding:13px;border:1px solid #dce1ec;border-radius:10px;margin:7px 0 13px;font-size:15px}
+textarea{resize:vertical;min-height:95px}
+.primary{background:linear-gradient(120deg,#4938c9,#1678e8);color:white;width:100%;font-size:15px}
+.switch{color:#4938c9;cursor:pointer;font-weight:bold}
+.muted{color:#7e8799;font-size:13px}
+.post{line-height:1.6;white-space:pre-wrap;margin:15px 0;overflow-wrap:anywhere}
+.posthead{display:flex;align-items:center;gap:10px}
+.avatar{width:43px;height:43px;border-radius:50%;background:#e4e8ff;color:#4938c9;display:grid;place-items:center;font-weight:bold;font-size:18px}
+.name{font-weight:bold}
+.actions{display:flex;gap:10px;border-top:1px solid #eee;padding-top:12px}
+.actions button{background:#f1f3fa;color:#4b5270;flex:1}
+.actions button.liked{color:#e13d69;background:#fff0f4}
+.commentbox{display:flex;gap:7px;margin-top:12px}
+.commentbox input{margin:0;min-width:0}
+.commentbox button{background:#4938c9;color:white}
+.comments{font-size:13px;margin-top:10px}
+.comments p{padding:7px;background:#f6f7fb;border-radius:8px;margin-top:5px}
+#app,#auth{display:none}
+#status{text-align:center;padding:12px;color:#4938c9;font-size:13px}
+.empty{text-align:center;padding:35px;color:#7e8799}
 </style>
 </head>
 <body>
 
 <header>
- <div class="logo">B<span>ondly.</span></div>
- <button class="header-btn" id="logoutBtn" style="display:none" onclick="logout()">Logout ↗</button>
+<div class="top">
+<div class="logo">B<span>ondly.</span></div>
+<button class="logout" id="logout" onclick="logout()">Logout</button>
+</div>
 </header>
 
-<section id="auth">
- <div class="brand">✦</div>
- <h1 id="formTitle">Welcome to Bondly</h1>
- <p class="subtitle">A new world of connection.<br>তোমার মানুষ, তোমার গল্প, তোমার পৃথিবী।</p>
- <div id="nameBox" style="display:none">
-  <input id="name" placeholder="তোমার নাম">
- </div>
- <input id="email" type="email" placeholder="Email address">
- <input id="password" type="password" placeholder="Password">
- <button class="primary" id="authButton" onclick="submitAuth()">Sign In →</button>
- <div class="switch" id="switchText" onclick="toggleMode()">New here? Create account</div>
- <p id="message"></p>
+<main>
+<div id="status">Bondly চালু হচ্ছে...</div>
+
+<section id="auth" class="card">
+<h2 id="authTitle">Welcome to Bondly 👋</h2>
+<p class="muted" id="authDesc">Connect with people around you.</p>
+<div id="nameField" style="display:none">
+<label>আপনার নাম</label>
+<input id="fullName" placeholder="আপনার পুরো নাম">
+</div>
+<label>Email Address</label>
+<input id="email" type="email" placeholder="আপনার ইমেইল">
+<label>Password</label>
+<input id="password" type="password" placeholder="পাসওয়ার্ড">
+<button class="primary" id="authButton" onclick="authenticate()">Login to Bondly</button>
+<p style="text-align:center;margin-top:16px;font-size:14px">
+<span id="switchText">নতুন অ্যাকাউন্ট?</span>
+<span class="switch" onclick="switchAuth()" id="switchButton">Sign Up</span>
+</p>
 </section>
 
-<main id="app">
- <section class="hero">
-  <small>✦ YOUR WORLD. YOUR PEOPLE.</small>
-  <h1 id="welcomeTitle">Welcome to Bondly ✨</h1>
-  <p>একটি নতুন পৃথিবী। যেখানে তোমার গল্পই তোমার পরিচয়।</p>
-  <div class="spark">✧</div>
- </section>
+<section id="app">
+<div class="card">
+<h2>Welcome to Bondly! 👋</h2>
+<p class="muted">Connect • Chat • Share</p>
+<p id="welcome" style="margin-top:10px;font-weight:bold"></p>
+</div>
 
- <h3 class="section-title">Your Moments ✨</h3>
- <div class="stories">
-  <div class="story"><div class="ring"><div>＋</div></div>Your Story</div>
-  <div class="story"><div class="ring"><div>🌙</div></div>Friends</div>
-  <div class="story"><div class="ring"><div>🔥</div></div>Trending</div>
-  <div class="story"><div class="ring"><div>🌸</div></div>Creators</div>
-  <div class="story"><div class="ring"><div>🌍</div></div>Explore</div>
- </div>
+<div class="card">
+<h2>What's on your mind? ✨</h2>
+<textarea id="postContent" placeholder="আপনার মনের কথা লিখুন..."></textarea>
+<button class="primary" onclick="createPost()">Publish Post</button>
+</div>
 
- <div class="layout">
-  <section>
-   <div class="card composer">
-    <h3>✦ Create something beautiful</h3>
-    <textarea id="postText" placeholder="What's on your mind? Share your story..."></textarea>
-    <button class="primary" onclick="createPost()">＋ Share with Bondly</button>
-   </div>
-   <h3 class="section-title">Your Feed <span style="color:#a67aff">✦</span></h3>
-   <div id="feed">
-    <article class="card">
-     <div class="post-head"><div class="avatar">B</div><div><b>Bondly Official</b><small>Welcome to our world ✦</small></div></div>
-     <div class="post-text">Welcome to Bondly! 💜
-
-এখানে শুরু হোক নতুন বন্ধুত্ব, নতুন গল্প এবং নতুন সম্ভাবনা। Connect • Chat • Share.</div>
-     <div class="post-actions"><button onclick="likePost(this)">♡ Like</button><button onclick="comingSoon()">☏ Comment</button><button onclick="comingSoon()">↗ Share</button></div>
-    </article>
-   </div>
-  </section>
-  <aside class="side">
-   <div class="card">
-    <h3>✦ Explore Bondly</h3>
-    <p>🌍 Discover People</p>
-    <p>💬 Private Messenger</p>
-    <p>👥 Communities</p>
-    <p>🎬 Moments & Stories</p>
-    <p>🔔 Notifications</p>
-   </div>
-   <div class="card">
-    <h3>💜 Our Vision</h3>
-    <p>A place where everyone belongs.</p>
-    <p>Connect • Chat • Share</p>
-   </div>
-  </aside>
- </div>
+<h2 style="margin:20px 5px">Your Feed 🌍</h2>
+<div id="feed"></div>
+</section>
 </main>
 
-<nav id="bottomNav" style="display:none">
- <button class="active" onclick="goHome(this)"><strong>⌂</strong>Home</button>
- <button onclick="comingSoon()"><strong>⌕</strong>Discover</button>
- <button onclick="comingSoon()"><strong>＋</strong>Create</button>
- <button onclick="comingSoon()"><strong>♡</strong>Activity</button>
- <button onclick="comingSoon()"><strong>◉</strong>Profile</button>
-</nav>
-
 <script>
-const SUPABASE_URL="https://bokzlnjktwhugwjpotnx.supabase.co";
-const SUPABASE_KEY="sb_publishable_06Xlq5qXzlGI53_JLhHyaw_-8zG2AgP";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let signupMode=false,currentUser=null;
+// SUPABASE CONFIGURATION
+const SUPABASE_URL = "https://bokzlnjktwhugwjpotnx.supabase.co";
 
-function toggleMode(){
- signupMode=!signupMode;
- document.getElementById("formTitle").textContent=signupMode?"Create Your Account":"Welcome to Bondly";
- document.getElementById("authButton").textContent=signupMode?"Create Account →":"Sign In →";
- document.getElementById("nameBox").style.display=signupMode?"block":"none";
- document.getElementById("switchText").textContent=signupMode?"Already have an account? Sign in":"New here? Create account";
- document.getElementById("message").textContent="";
+// এখানে নিজের Supabase anon/public key বসাবে
+const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+
+const db = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let currentUser = null;
+let isSignup = false;
+
+const $ = id => document.getElementById(id);
+
+function status(msg){$("status").textContent=msg;}
+
+function switchAuth(){
+isSignup=!isSignup;
+$("authTitle").textContent=isSignup?"Create Your Bondly Account":"Welcome to Bondly 👋";
+$("authDesc").textContent=isSignup?"Join our community today.":"Connect with people around you.";
+$("nameField").style.display=isSignup?"block":"none";
+$("authButton").textContent=isSignup?"Create Account":"Login to Bondly";
+$("switchText").textContent=isSignup?"আগেই অ্যাকাউন্ট আছে?":"নতুন অ্যাকাউন্ট?";
+$("switchButton").textContent=isSignup?"Login":"Sign Up";
 }
-async function submitAuth(){
- const email=document.getElementById("email").value.trim();
- const password=document.getElementById("password").value;
- const name=document.getElementById("name").value.trim();
- const msg=document.getElementById("message");
- if(!email||!password){msg.textContent="Email এবং Password পূরণ করো";return}
- if(signupMode&&!name){msg.textContent="তোমার নাম লিখো";return}
- msg.textContent="Please wait...";
- let result;
- if(signupMode){
-  result=await db.auth.signUp({email,password,options:{data:{full_name:name}}});
- }else{
-  result=await db.auth.signInWithPassword({email,password});
- }
- if(result.error){msg.textContent=result.error.message;return}
- if(signupMode&&!result.data.session){msg.textContent="তোমার ইমেইলে confirmation link পাঠানো হয়েছে।";return}
- currentUser=result.data.user;
- showApp();
+
+async function authenticate(){
+const email=$("email").value.trim();
+const password=$("password").value;
+if(!email||!password){alert("Email ও Password লিখুন");return;}
+if(SUPABASE_KEY.includes("PASTE_")){
+alert("প্রথমে Supabase anon public key বসাতে হবে।");
+return;
 }
-function showApp(){
- document.getElementById("auth").style.display="none";
- document.getElementById("app").style.display="block";
- document.getElementById("logoutBtn").style.display="block";
- document.getElementById("bottomNav").style.display="flex";
- document.getElementById("welcomeTitle").textContent="Welcome, "+(currentUser?.user_metadata?.full_name||"Friend")+" ✨";
+status("অ্যাকাউন্ট যাচাই হচ্ছে...");
+let result;
+if(isSignup){
+const name=$("fullName").value.trim();
+if(!name){alert("আপনার নাম লিখুন");return;}
+result=await db.auth.signUp({
+email,password,
+options:{data:{full_name:name}}
+});
+}else{
+result=await db.auth.signInWithPassword({email,password});
 }
+if(result.error){alert(result.error.message);status("আবার চেষ্টা করুন");return;}
+if(isSignup && !result.data.session){
+status("আপনার ইমেইল যাচাই করুন, তারপর Login করুন।");
+alert("Signup হয়েছে। ইমেইলে verification link পাঠানো হলে সেটি যাচাই করুন।");
+return;
+}
+if(result.data.session) await loadApp(result.data.session.user);
+}
+
 async function logout(){
- await db.auth.signOut();
- currentUser=null;
- document.getElementById("app").style.display="none";
- document.getElementById("auth").style.display="block";
- document.getElementById("logoutBtn").style.display="none";
- document.getElementById("bottomNav").style.display="none";
+await db.auth.signOut();
+currentUser=null;
+$("app").style.display="none";
+$("auth").style.display="block";
+$("logout").style.display="none";
+status("আপনি Logout করেছেন");
 }
-function createPost(){
- const input=document.getElementById("postText"),value=input.value.trim();
- if(!value){alert("আগে কিছু লিখুন");return}
- const card=document.createElement("article");card.className="card";
- const head=document.createElement("div");head.className="post-head";
- const avatar=document.createElement("div");avatar.className="avatar";avatar.textContent="B";
- const info=document.createElement("div");
- const bold=document.createElement("b");bold.textContent=currentUser?.user_metadata?.full_name||"Bondly User";
- const small=document.createElement("small");small.textContent="Just now";
- info.append(bold,small);head.append(avatar,info);
- const content=document.createElement("div");content.className="post-text";content.textContent=value;
- const actions=document.createElement("div");actions.className="post-actions";
- actions.innerHTML='<button onclick="likePost(this)">♡ Like</button><button onclick="comingSoon()">☏ Comment</button><button onclick="comingSoon()">↗ Share</button>';
- card.append(head,content,actions);document.getElementById("feed").prepend(card);input.value="";
+
+async function loadApp(user){
+currentUser=user;
+$("auth").style.display="none";
+$("app").style.display="block";
+$("logout").style.display="block";
+const name=user.user_metadata?.full_name||user.email;
+$("welcome").textContent="Hello, "+name;
+status("Bondly is ready!");
+await loadFeed();
 }
-function likePost(btn){
- if(btn.dataset.liked==="yes"){btn.dataset.liked="no";btn.textContent="♡ Like"}
- else{btn.dataset.liked="yes";btn.textContent="♥ Liked"}
+
+async function createPost(){
+const content=$("postContent").value.trim();
+if(!content){alert("কিছু লিখুন");return;}
+const {error}=await db.from("posts").insert({
+user_id:currentUser.id,
+content:content
+});
+if(error){alert(error.message);return;}
+$("postContent").value="";
+await loadFeed();
 }
-function comingSoon(){alert("এই ফিচারটি আমরা পরবর্তী ধাপে তৈরি করব।")}
-function goHome(btn){window.scrollTo({top:0,behavior:"smooth"});document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));btn.classList.add("active")}
-db.auth.getSession().then(({data})=>{if(data.session){currentUser=data.session.user;showApp()}});
+
+async function loadFeed(){
+const feed=$("feed");
+feed.innerHTML='<div class="empty">Loading posts...</div>';
+const {data:posts,error}=await db.from("posts")
+.select("*").order("created_at",{ascending:false}).limit(50);
+if(error){feed.textContent="Feed error: "+error.message;return;}
+if(!posts.length){feed.innerHTML='<div class="card empty">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি আপনিই করুন! 🎉</div>';return;}
+
+feed.innerHTML="";
+for(const post of posts){
+const [{data:profile},{data:likes},{data:myLike},{data:comments}]=await Promise.all([
+db.from("profiles").select("full_name,username").eq("id",post.user_id).maybeSingle(),
+db.from("likes").select("id",{count:"exact"}).eq("post_id",post.id),
+db.from("likes").select("id").eq("post_id",post.id).eq("user_id",currentUser.id).maybeSingle(),
+db.from("comments").select("*").eq("post_id",post.id).order("created_at",{ascending:true})
+]);
+
+const card=document.createElement("article");
+card.className="card";
+
+const head=document.createElement("div");
+head.className="posthead";
+const avatar=document.createElement("div");
+avatar.className="avatar";
+avatar.textContent=(profile?.full_name||"U").charAt(0).toUpperCase();
+const details=document.createElement("div");
+const name=document.createElement("div");
+name.className="name";
+name.textContent=profile?.full_name||profile?.username||"Bondly User";
+const date=document.createElement("div");
+date.className="muted";
+date.textContent=new Date(post.created_at).toLocaleString();
+details.append(name,date);
+head.append(avatar,details);
+
+const body=document.createElement("div");
+body.className="post";
+body.textContent=post.content;
+
+const actions=document.createElement("div");
+actions.className="actions";
+const like=document.createElement("button");
+like.textContent=(myLike?"❤️":"🤍")+" Like ("+(likes?.length||0)+")";
+if(myLike)like.className="liked";
+like.onclick=()=>toggleLike(post.id,!!myLike);
+
+const commentButton=document.createElement("button");
+commentButton.textContent="💬 Comment ("+(comments?.length||0)+")";
+actions.append(like,commentButton);
+
+const commentArea=document.createElement("div");
+commentArea.className="comments";
+comments?.forEach(c=>{
+const p=document.createElement("p");
+p.textContent=c.content;
+commentArea.append(p);
+});
+
+const inputRow=document.createElement("div");
+inputRow.className="commentbox";
+const input=document.createElement("input");
+input.placeholder="একটি মন্তব্য লিখুন...";
+const send=document.createElement("button");
+send.textContent="Send";
+send.onclick=()=>addComment(post.id,input.value);
+inputRow.append(input,send);
+
+commentButton.onclick=()=>inputRow.scrollIntoView({behavior:"smooth",block:"center"});
+card.append(head,body,actions,commentArea,inputRow);
+feed.append(card);
+}
+}
+
+async function toggleLike(postId,liked){
+if(liked){
+const {error}=await db.from("likes").delete()
+.eq("post_id",postId).eq("user_id",currentUser.id);
+if(error)alert(error.message);
+}else{
+const {error}=await db.from("likes").insert({
+post_id:postId,user_id:currentUser.id
+});
+if(error)alert(error.message);
+}
+await loadFeed();
+}
+
+async function addComment(postId,value){
+const content=value.trim();
+if(!content)return;
+const {error}=await db.from("comments").insert({
+post_id:postId,user_id:currentUser.id,content
+});
+if(error){alert(error.message);return;}
+await loadFeed();
+}
+
+async function start(){
+if(SUPABASE_KEY.includes("PASTE_")){
+status("Supabase public key সেটআপ প্রয়োজন।");
+$("auth").style.display="block";
+$("logout").style.display="none";
+return;
+}
+const {data,error}=await db.auth.getSession();
+if(error){status(error.message);return;}
+if(data.session)await loadApp(data.session.user);
+else{
+status("Welcome to Bondly");
+$("auth").style.display="block";
+$("logout").style.display="none";
+}
+db.auth.onAuthStateChange((event,session)=>{
+if(event==="SIGNED_IN" && session && !currentUser){
+setTimeout(()=>loadApp(session.user),0);
+}
+});
+}
+start();
 </script>
 </body>
 </html>

@@ -1,141 +1,142 @@
-
+l
 <!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#090d18">
-<title>Bondly - Connect Together</title>
-
+<meta name="theme-color" content="#080d1b">
+<title>Bondly - Social Network</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#090d18;color:white;font-family:Arial,sans-serif;padding-bottom:80px}
-header{background:#111a2d;padding:17px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:10;border-bottom:1px solid #29354b}
-.logo{font-size:27px;font-weight:bold;color:#64a8ff}
-main{max-width:650px;margin:auto;padding:14px}
-.card{background:#151e30;border:1px solid #293750;border-radius:16px;padding:17px;margin:15px 0}
-h2{font-size:20px;margin-bottom:12px}
-.small{color:#a2b0c6;font-size:13px}
-input,textarea{width:100%;padding:14px;margin:9px 0;background:#0c1423;border:1px solid #34445f;border-radius:10px;color:white;font-size:15px}
-textarea{min-height:100px;resize:vertical}
-button{border:0;border-radius:10px;padding:13px;background:#287cff;color:white;font-weight:bold;font-size:15px;cursor:pointer}
-button:disabled{opacity:.5}
-.full{width:100%;margin-top:10px}
-.secondary{background:#34445f}
+body{font-family:Arial,sans-serif;background:#080d1b;color:#fff;padding-bottom:85px}
+header{height:65px;background:#111a2d;border-bottom:1px solid #263650;display:flex;align-items:center;justify-content:space-between;padding:0 17px;position:sticky;top:0;z-index:10}
+.logo{font-size:27px;font-weight:900;color:#68aaff;letter-spacing:-1px}
+.header-actions{display:flex;gap:10px;align-items:center}
+.circle{width:39px;height:39px;border-radius:50%;background:#253653;display:grid;place-items:center}
+button{border:0;cursor:pointer;border-radius:10px;padding:11px 15px;background:#287cff;color:white;font-weight:bold}
+main{max-width:680px;margin:auto;padding:14px}
+.card{background:#131e32;border:1px solid #253650;border-radius:17px;padding:16px;margin-bottom:15px}
+.profile{display:flex;align-items:center;gap:11px}
+.avatar{width:45px;height:45px;border-radius:50%;background:linear-gradient(135deg,#287cff,#9c62ff);display:grid;place-items:center;font-size:21px;font-weight:bold}
+.muted{color:#91a3bd;font-size:13px}
+h2{font-size:19px;margin-bottom:12px}
+.stories{display:flex;gap:12px;overflow-x:auto;padding:5px 0 12px}
+.story{min-width:76px;text-align:center}
+.story-ring{height:66px;width:66px;margin:auto;border-radius:50%;padding:3px;background:linear-gradient(135deg,#348bff,#bb58ff)}
+.story-inner{height:100%;border-radius:50%;background:#1a2942;display:grid;place-items:center;font-size:24px;border:3px solid #131e32}
+.story p{font-size:12px;margin-top:6px;color:#c5d5ec}
+textarea,input{width:100%;background:#0b1425;color:white;border:1px solid #30415f;padding:13px;border-radius:11px;margin:8px 0;font-size:15px}
+textarea{resize:vertical;min-height:75px}
+.full{width:100%;margin-top:8px}
+.secondary{background:#273a59}
+.post{padding:16px}
+.post p{line-height:1.6;white-space:pre-wrap;margin:14px 0}
+.post img{width:100%;max-height:450px;object-fit:contain;border-radius:12px;background:#090d18}
+.post-head{display:flex;gap:10px;align-items:center}
+.post-name{font-weight:bold}
+.post-actions{display:flex;justify-content:space-around;border-top:1px solid #30415b;margin-top:14px;padding-top:12px}
+.post-actions button{background:transparent;color:#b6c8e3;padding:8px}
+.post-date{font-size:11px;color:#8ca0bb;margin-top:4px}
+nav{position:fixed;bottom:0;left:0;width:100%;height:68px;background:#111a2d;border-top:1px solid #293b58;display:flex;justify-content:space-around;align-items:center;z-index:10}
+nav button{background:transparent;color:#afc6e9;font-size:12px;padding:6px}
+nav button.active{color:#62a8ff}
 .hidden{display:none!important}
-#status,#postStatus{font-size:14px;color:#75d9a8;margin-top:12px;overflow-wrap:anywhere}
-.post{overflow:hidden}
-.post p{line-height:1.6;margin:12px 0;white-space:pre-wrap;overflow-wrap:anywhere}
-.post img{width:100%;max-height:450px;object-fit:contain;background:#080c15;border-radius:12px;margin-top:10px}
-.post-date{font-size:12px;color:#95a5bd;margin-top:5px}
-nav{position:fixed;bottom:0;left:0;width:100%;display:flex;justify-content:space-around;background:#111a2d;padding:15px 5px;border-top:1px solid #293750;z-index:10}
-nav button{background:transparent;padding:5px;color:#b8cfff;font-size:12px}
-.empty{text-align:center;padding:25px;color:#a2b0c6}
+#status,#postStatus{font-size:13px;color:#7cdda9;margin-top:10px;overflow-wrap:anywhere}
+.empty{text-align:center;padding:24px;color:#91a3bd}
 </style>
 </head>
-
 <body>
 
 <header>
 <div class="logo">Bondly ✦</div>
+<div class="header-actions">
+<div class="circle">🔔</div>
+<div class="circle" id="headerAvatar">S</div>
 <button id="logoutBtn" class="hidden" onclick="logout()">Logout</button>
+</div>
 </header>
 
 <main>
 
-<!-- LOGIN -->
 <section id="auth" class="card">
 <h2>Welcome to Bondly ❤️</h2>
-<p class="small">Connect • Chat • Share</p>
-
+<p class="muted">Connect • Chat • Share</p>
 <div id="loginFields">
 <input id="email" type="email" placeholder="Email Address">
 <input id="password" type="password" placeholder="Password">
-
 <button class="full" onclick="login()">Login</button>
 <button class="full secondary" onclick="showRegister()">Create Account</button>
 <button class="full secondary" onclick="forgot()">Forgot Password?</button>
 </div>
-
-<!-- REGISTER -->
 <div id="registerFields" class="hidden">
-<h2>Create Your Account</h2>
 <input id="name" placeholder="Full Name">
 <input id="phone" placeholder="Mobile Number">
 <input id="regEmail" type="email" placeholder="Email Address">
-<input id="regPassword" type="password" placeholder="Password (minimum 6 characters)">
-
+<input id="regPassword" type="password" placeholder="Password">
 <button class="full" onclick="register()">Sign Up</button>
 <button class="full secondary" onclick="showLogin()">Back to Login</button>
 </div>
-
 <p id="status"></p>
 </section>
 
-<!-- HOME -->
 <section id="home" class="hidden">
 
 <div class="card">
-<h2 id="welcome">Welcome to Bondly 👋</h2>
-<p class="small">Your World. Your People. Your Bondly.</p>
+<div class="profile">
+<div class="avatar" id="welcomeAvatar">S</div>
+<div>
+<h2 id="welcome" style="margin-bottom:4px">Welcome!</h2>
+<p class="muted">Your world. Your people. Your Bondly.</p>
+</div>
+</div>
+</div>
+
+<!-- STORIES -->
+<div class="card">
+<h2>Stories ✨</h2>
+<div class="stories">
+<div class="story"><div class="story-ring"><div class="story-inner">➕</div></div><p>Your Story</p></div>
+<div class="story"><div class="story-ring"><div class="story-inner">🌸</div></div><p>Friends</p></div>
+<div class="story"><div class="story-ring"><div class="story-inner">🌅</div></div><p>Moments</p></div>
+<div class="story"><div class="story-ring"><div class="story-inner">🎵</div></div><p>Music</p></div>
+<div class="story"><div class="story-ring"><div class="story-inner">🌍</div></div><p>World</p></div>
+</div>
 </div>
 
 <!-- CREATE POST -->
 <div class="card">
 <h2>Create a Post ✍️</h2>
-
 <textarea id="postText" placeholder="What's on your mind?"></textarea>
-
-<p class="small">Add a photo</p>
 <input type="file" id="postImage" accept="image/*">
-
 <button class="full" id="shareBtn" onclick="createPost()">Share Post 🚀</button>
 <p id="postStatus"></p>
 </div>
 
-<h2>News Feed 🌍</h2>
-<div id="feed">
-<div class="empty">Loading posts...</div>
-</div>
+<h2 style="margin:18px 4px">Latest Posts 🌍</h2>
+<div id="feed"><div class="empty">Loading posts...</div></div>
 
 </section>
-
 </main>
 
 <nav>
-<button onclick="goHome()">🏠<br>Home</button>
+<button class="active" onclick="goHome()">🏠<br>Home</button>
 <button onclick="comingSoon('Friends')">👥<br>Friends</button>
 <button onclick="comingSoon('Chat')">💬<br>Chat</button>
 <button onclick="comingSoon('Profile')">👤<br>Profile</button>
 </nav>
 
 <script>
+const SUPABASE_URL='https://bokzlnjktwhugwjpotnx.supabase.co';
+const SUPABASE_KEY='sb_publishable_06Xlq5qXzlGI53_JLhHyaw_-8zG2AgP';
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-// SUPABASE CONNECTION
-
-const SUPABASE_URL =
-'https://bokzlnjktwhugwjpotnx.supabase.co';
-
-const SUPABASE_KEY =
-'sb_publishable_06Xlq5qXzlGI53_JLhHyaw_-8zG2AgP';
-
-const db = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
-
-let currentUser = null;
-let busy = false;
-
-// MESSAGE
+let currentUser=null;
+let busy=false;
 
 function message(id,text){
 document.getElementById(id).textContent=text;
 }
-
-// LOGIN SCREEN
 
 function showLogin(){
 document.getElementById('loginFields').classList.remove('hidden');
@@ -149,362 +150,184 @@ document.getElementById('registerFields').classList.remove('hidden');
 message('status','');
 }
 
-// LOGIN
-
 async function login(){
-
 const email=document.getElementById('email').value.trim();
 const password=document.getElementById('password').value;
-
-if(!email||!password){
-message('status','Enter email and password.');
-return;
-}
-
+if(!email||!password){message('status','Enter email and password.');return;}
 message('status','Logging in...');
-
-const {data,error}=await db.auth.signInWithPassword({
-email,password
-});
-
-if(error){
-message('status',error.message);
-return;
-}
-
+const {data,error}=await db.auth.signInWithPassword({email,password});
+if(error){message('status',error.message);return;}
 currentUser=data.user;
 showHome();
 }
 
-// REGISTER
-
 async function register(){
-
 const name=document.getElementById('name').value.trim();
 const phone=document.getElementById('phone').value.trim();
 const email=document.getElementById('regEmail').value.trim();
 const password=document.getElementById('regPassword').value;
-
-if(!name||!email||!password){
-message('status','Please fill in your name, email and password.');
-return;
-}
-
-if(password.length<6){
-message('status','Password must be at least 6 characters.');
-return;
-}
-
+if(!name||!email||!password){message('status','Fill required fields.');return;}
+if(password.length<6){message('status','Password needs at least 6 characters.');return;}
 message('status','Creating account...');
-
 const {data,error}=await db.auth.signUp({
-email:email,
-password:password,
-options:{
-data:{
-full_name:name,
-phone:phone
-},
-emailRedirectTo:location.origin+location.pathname
-}
+email,password,
+options:{data:{full_name:name,phone:phone},
+emailRedirectTo:location.origin+location.pathname}
 });
-
-if(error){
-message('status',error.message);
-return;
+if(error){message('status',error.message);return;}
+if(data.session){currentUser=data.user;showHome();}
+else{message('status','Account created! Verify your email, then login.');}
 }
-
-if(data.session){
-currentUser=data.user;
-showHome();
-}else{
-message('status','Account created! Please verify your email, then login.');
-}
-}
-
-// FORGOT PASSWORD
 
 async function forgot(){
-
 const email=document.getElementById('email').value.trim();
-
-if(!email){
-message('status','Enter your email address first.');
-return;
-}
-
-message('status','Sending reset link...');
-
+if(!email){message('status','Enter your email first.');return;}
 const {error}=await db.auth.resetPasswordForEmail(email,{
 redirectTo:location.origin+location.pathname
 });
-
-message('status',error?error.message:'Password reset email sent.');
+message('status',error?error.message:'Reset email sent.');
 }
 
-// HOME SCREEN
-
 function showHome(){
-
 document.getElementById('auth').classList.add('hidden');
 document.getElementById('home').classList.remove('hidden');
 document.getElementById('logoutBtn').classList.remove('hidden');
-
-const displayName=currentUser.user_metadata?.full_name||currentUser.email;
-
-document.getElementById('welcome').textContent='Welcome, '+displayName+' 👋';
-
+const name=currentUser.user_metadata?.full_name||currentUser.email;
+document.getElementById('welcome').textContent='Welcome, '+name+'!';
+document.getElementById('welcomeAvatar').textContent=name.charAt(0).toUpperCase();
+document.getElementById('headerAvatar').textContent=name.charAt(0).toUpperCase();
 loadPosts();
+}
+
+async function logout(){
+await db.auth.signOut();
+currentUser=null;
+location.reload();
 }
 
 function goHome(){
 if(currentUser)showHome();
 }
 
-// LOGOUT
-
-async function logout(){
-
-await db.auth.signOut();
-currentUser=null;
-location.reload();
-}
-
-// CREATE POST
-
 async function createPost(){
-
 if(busy)return;
-
 busy=true;
-
 const button=document.getElementById('shareBtn');
 button.disabled=true;
-
 try{
-
-// Always get the authenticated Supabase user
 const {data:authData,error:authError}=await db.auth.getUser();
-
 if(authError||!authData.user){
-message('postStatus','Login session expired. Please login again.');
+message('postStatus','Please login again.');
 return;
 }
-
 const user=authData.user;
 currentUser=user;
-
 const content=document.getElementById('postText').value.trim();
 const file=document.getElementById('postImage').files[0];
-
-if(!content&&!file){
-message('postStatus','Write something or select a photo.');
-return;
-}
-
-message('postStatus','Publishing your post...');
-
+if(!content&&!file){message('postStatus','Write something or select an image.');return;}
+message('postStatus','Publishing...');
 let imageUrl=null;
 
-// UPLOAD IMAGE
-
 if(file){
-
-if(!file.type.startsWith('image/')){
-message('postStatus','Please select a valid image.');
-return;
+if(!file.type.startsWith('image/')){message('postStatus','Choose an image file.');return;}
+if(file.size>5*1024*1024){message('postStatus','Image must be under 5 MB.');return;}
+const path=user.id+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+const {error:uploadError}=await db.storage.from('post-images').upload(path,file);
+if(uploadError){message('postStatus',uploadError.message);return;}
+imageUrl=db.storage.from('post-images').getPublicUrl(path).data.publicUrl;
 }
 
-if(file.size>5*1024*1024){
-message('postStatus','Image must be smaller than 5 MB.');
-return;
-}
-
-const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-const path=user.id+'/'+Date.now()+'-'+safeName;
-
-const {error:uploadError}=await db.storage
-.from('post-images')
-.upload(path,file,{upsert:false});
-
-if(uploadError){
-message('postStatus','Image upload failed: '+uploadError.message);
-return;
-}
-
-const {data:urlData}=db.storage
-.from('post-images')
-.getPublicUrl(path);
-
-imageUrl=urlData.publicUrl;
-}
-
-// SAVE POST
-
-const {data:postData,error:postError}=await db
-.from('posts')
-.insert({
+const {error}=await db.from('posts').insert({
 user_id:user.id,
 content:content||null,
 image_url:imageUrl
-})
-.select()
-.single();
-
-if(postError){
-message('postStatus','Post failed: '+postError.message);
-return;
-}
-
+});
+if(error){message('postStatus','Post failed: '+error.message);return;}
 document.getElementById('postText').value='';
 document.getElementById('postImage').value='';
-
-message('postStatus','Your post was published successfully! 🎉');
-
+message('postStatus','Post shared successfully! 🎉');
 await loadPosts();
-
-}catch(error){
-
-message('postStatus','Error: '+error.message);
-
+}catch(e){
+message('postStatus','Error: '+e.message);
 }finally{
-
 busy=false;
 button.disabled=false;
-
 }
-
 }
-
-// LOAD POSTS
 
 async function loadPosts(){
-
 const feed=document.getElementById('feed');
-
 feed.innerHTML='<div class="empty">Loading posts...</div>';
-
-const {data,error}=await db
-.from('posts')
-.select('*')
-.order('created_at',{ascending:false})
-.limit(50);
-
-if(error){
-feed.textContent='Could not load posts: '+error.message;
-return;
-}
-
+const {data,error}=await db.from('posts').select('*').order('created_at',{ascending:false}).limit(50);
+if(error){feed.textContent='Feed error: '+error.message;return;}
 feed.innerHTML='';
-
-if(!data||data.length===0){
-feed.innerHTML='<div class="card empty">No posts yet. Be the first to share! ❤️</div>';
+if(!data||!data.length){
+feed.innerHTML='<div class="card empty">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি আপনিই করুন! ❤️</div>';
 return;
 }
-
 data.forEach(post=>{
-
 const card=document.createElement('article');
 card.className='card post';
-
-const title=document.createElement('strong');
-
-title.textContent=post.user_id===currentUser.id
-?'You'
-:'Bondly Member';
-
+const head=document.createElement('div');
+head.className='post-head';
+const avatar=document.createElement('div');
+avatar.className='avatar';
+avatar.textContent=post.user_id===currentUser.id?'S':'B';
+const info=document.createElement('div');
+const title=document.createElement('div');
+title.className='post-name';
+title.textContent=post.user_id===currentUser.id?'You':'Bondly Member';
 const date=document.createElement('div');
 date.className='post-date';
 date.textContent=new Date(post.created_at).toLocaleString();
-
-card.appendChild(title);
-card.appendChild(date);
-
+info.append(title,date);
+head.append(avatar,info);
+card.append(head);
 if(post.content){
-
-const text=document.createElement('p');
-text.textContent=post.content;
-card.appendChild(text);
-
+const p=document.createElement('p');
+p.textContent=post.content;
+card.append(p);
 }
-
 if(post.image_url){
-
 const img=document.createElement('img');
 img.src=post.image_url;
 img.alt='Post image';
-img.loading='lazy';
-card.appendChild(img);
-
+card.append(img);
 }
-
-feed.appendChild(card);
-
+const actions=document.createElement('div');
+actions.className='post-actions';
+['❤️ Like','💬 Comment','↗ Share'].forEach(label=>{
+const b=document.createElement('button');
+b.textContent=label;
+b.onclick=()=>comingSoon(label);
+actions.append(b);
 });
-
+card.append(actions);
+feed.append(card);
+});
 }
-
-// FUTURE FEATURES
 
 function comingSoon(feature){
-alert(feature+' feature is coming soon to Bondly!');
+alert(feature+' feature is coming soon!');
 }
-
-// SESSION CHECK
 
 async function checkSession(){
-
 const {data,error}=await db.auth.getSession();
-
-if(error){
-message('status',error.message);
-return;
-}
-
+if(error){message('status',error.message);return;}
 if(data.session){
-
 currentUser=data.session.user;
 showHome();
-
 }
-
 }
-
-// AUTH LISTENER
 
 db.auth.onAuthStateChange((event,session)=>{
-
 if(event==='SIGNED_IN'&&session){
-
 currentUser=session.user;
-
-document.getElementById('auth').classList.add('hidden');
-document.getElementById('home').classList.remove('hidden');
-document.getElementById('logoutBtn').classList.remove('hidden');
-
-document.getElementById('welcome').textContent=
-'Welcome, '+(session.user.user_metadata?.full_name||session.user.email)+' 👋';
-
-loadPosts();
-
+showHome();
 }
-
-if(event==='SIGNED_OUT'){
-
-currentUser=null;
-
-document.getElementById('auth').classList.remove('hidden');
-document.getElementById('home').classList.add('hidden');
-document.getElementById('logoutBtn').classList.add('hidden');
-
-}
-
 });
 
-// START APP
-
 checkSession();
-
 </script>
 </body>
 </html>

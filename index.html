@@ -4,294 +4,335 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bondly - Connect Together</title>
+<title>Bondly — Connect Together</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f3f5fa;color:#202438}
-header{background:linear-gradient(120deg,#4938c9,#1678e8);color:white;padding:20px;position:sticky;top:0;z-index:5}
-.top{max-width:850px;margin:auto;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:27px;font-weight:900;letter-spacing:-1px}
-.logo span{color:#9fe7ff}
-button{border:0;border-radius:10px;padding:11px 16px;font-weight:bold;cursor:pointer}
-.logout{background:white;color:#4938c9}
-main{max-width:700px;margin:25px auto;padding:0 14px}
-.card{background:white;padding:20px;border-radius:17px;margin-bottom:18px;box-shadow:0 5px 22px #182b5010}
-h2{margin-bottom:15px}
-input,textarea{width:100%;padding:13px;border:1px solid #dce1ec;border-radius:10px;margin:7px 0 13px;font-size:15px}
-textarea{resize:vertical;min-height:95px}
-.primary{background:linear-gradient(120deg,#4938c9,#1678e8);color:white;width:100%;font-size:15px}
-.switch{color:#4938c9;cursor:pointer;font-weight:bold}
-.muted{color:#7e8799;font-size:13px}
-.post{line-height:1.6;white-space:pre-wrap;margin:15px 0;overflow-wrap:anywhere}
-.posthead{display:flex;align-items:center;gap:10px}
-.avatar{width:43px;height:43px;border-radius:50%;background:#e4e8ff;color:#4938c9;display:grid;place-items:center;font-weight:bold;font-size:18px}
-.name{font-weight:bold}
-.actions{display:flex;gap:10px;border-top:1px solid #eee;padding-top:12px}
-.actions button{background:#f1f3fa;color:#4b5270;flex:1}
-.actions button.liked{color:#e13d69;background:#fff0f4}
-.commentbox{display:flex;gap:7px;margin-top:12px}
-.commentbox input{margin:0;min-width:0}
-.commentbox button{background:#4938c9;color:white}
-.comments{font-size:13px;margin-top:10px}
-.comments p{padding:7px;background:#f6f7fb;border-radius:8px;margin-top:5px}
-#app,#auth{display:none}
-#status{text-align:center;padding:12px;color:#4938c9;font-size:13px}
-.empty{text-align:center;padding:35px;color:#7e8799}
+body{font-family:Arial,sans-serif;background:#090b16;color:white;min-height:100vh}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+header{padding:17px 5%;display:flex;justify-content:space-between;align-items:center;background:#151829;border-bottom:1px solid #292e48;position:sticky;top:0;z-index:2}
+.logo{font-size:27px;font-weight:900;background:linear-gradient(90deg,#8b70ff,#21c8d8);color:transparent;background-clip:text}
+header button,.primary{border:0;border-radius:10px;padding:11px 18px;background:linear-gradient(110deg,#715aff,#398dff);color:white;font-weight:bold}
+main{max-width:720px;margin:30px auto;padding:0 15px}
+.auth{max-width:440px;margin:45px auto;background:#151829;border:1px solid #292e48;border-radius:22px;padding:27px}
+.brand{text-align:center;margin-bottom:25px}
+.brand-icon{width:65px;height:65px;border-radius:20px;margin:0 auto 12px;background:linear-gradient(135deg,#725cff,#18c8d8);display:grid;place-items:center;font-size:35px;font-weight:bold}
+.brand h1{font-size:32px}
+.muted{color:#a5abc0;font-size:14px;line-height:1.6;margin-top:8px}
+.tabs{display:flex;background:#0c1020;padding:5px;border-radius:10px;margin-bottom:22px}
+.tabs button{flex:1;background:transparent;border:0;color:#a5abc0;padding:12px;border-radius:8px}
+.tabs button.active{background:#6555ed;color:white}
+h2{margin-bottom:12px}
+.field{margin:14px 0}
+label{display:block;font-size:13px;color:#cbd0e5;margin-bottom:7px}
+input,textarea{width:100%;padding:14px;background:#0c1020;border:1px solid #303650;border-radius:10px;color:white;outline:none}
+textarea{min-height:95px;resize:vertical}
+input:focus,textarea:focus{border-color:#8270ff}
+.primary{width:100%;padding:14px;margin-top:8px}
+.link{display:block;text-align:center;color:#a99cff;margin-top:17px;font-size:13px;cursor:pointer}
+.msg{display:none;padding:12px;border-radius:9px;margin-bottom:15px;font-size:13px;line-height:1.5}
+.msg.show{display:block}
+.error{background:#421e2a;color:#ffb6c5}
+.success{background:#123a31;color:#9bffdc}
+.hidden{display:none!important}
+.panel,.post{background:#151829;border:1px solid #292e48;border-radius:17px;padding:20px;margin-bottom:18px}
+.profile{display:flex;align-items:center;gap:13px;margin-bottom:20px}
+.avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#725cff,#18c8d8);display:grid;place-items:center;font-size:22px;font-weight:bold}
+.post-head{display:flex;gap:10px;align-items:center;margin-bottom:14px}
+.post p{line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.post small{color:#9299b2}
+.empty{text-align:center;color:#a5abc0;padding:25px}
+footer{text-align:center;color:#68708b;font-size:12px;padding:25px}
 </style>
 </head>
 <body>
 
 <header>
-<div class="top">
-<div class="logo">B<span>ondly.</span></div>
-<button class="logout" id="logout" onclick="logout()">Logout</button>
-</div>
+<div class="logo">Bondly</div>
+<button id="logoutBtn" class="hidden" onclick="logout()">Logout</button>
 </header>
 
 <main>
-<div id="status">Bondly চালু হচ্ছে...</div>
-
-<section id="auth" class="card">
-<h2 id="authTitle">Welcome to Bondly 👋</h2>
-<p class="muted" id="authDesc">Connect with people around you.</p>
-<div id="nameField" style="display:none">
-<label>আপনার নাম</label>
-<input id="fullName" placeholder="আপনার পুরো নাম">
+<section id="authArea" class="auth">
+<div class="brand">
+<div class="brand-icon">B</div>
+<h1>Bondly</h1>
+<p class="muted">Connect • Chat • Share</p>
 </div>
+
+<div class="tabs">
+<button id="loginTab" class="active" onclick="showForm('login')">Login</button>
+<button id="signupTab" onclick="showForm('signup')">Sign Up</button>
+</div>
+
+<div id="message" class="msg"></div>
+
+<div id="loginForm">
+<h2>Welcome Back!</h2>
+<p class="muted">আপনার Bondly অ্যাকাউন্টে প্রবেশ করুন।</p>
+<div class="field">
 <label>Email Address</label>
-<input id="email" type="email" placeholder="আপনার ইমেইল">
+<input id="loginEmail" type="email" placeholder="আপনার ইমেইল">
+</div>
+<div class="field">
 <label>Password</label>
-<input id="password" type="password" placeholder="পাসওয়ার্ড">
-<button class="primary" id="authButton" onclick="authenticate()">Login to Bondly</button>
-<p style="text-align:center;margin-top:16px;font-size:14px">
-<span id="switchText">নতুন অ্যাকাউন্ট?</span>
-<span class="switch" onclick="switchAuth()" id="switchButton">Sign Up</span>
-</p>
+<input id="loginPassword" type="password" placeholder="আপনার পাসওয়ার্ড">
+</div>
+<button class="primary" onclick="login()">Login to Bondly</button>
+<span class="link" onclick="showForm('forgot')">Forgot Password?</span>
+</div>
+
+<div id="signupForm" class="hidden">
+<h2>Create Account</h2>
+<p class="muted">Bondly পরিবারের সদস্য হোন।</p>
+<div class="field">
+<label>Full Name</label>
+<input id="fullName" placeholder="আপনার নাম">
+</div>
+<div class="field">
+<label>Email Address</label>
+<input id="signupEmail" type="email" placeholder="আপনার ইমেইল">
+</div>
+<div class="field">
+<label>Mobile Number</label>
+<input id="phone" type="tel" placeholder="মোবাইল নম্বর">
+</div>
+<div class="field">
+<label>Password</label>
+<input id="signupPassword" type="password" placeholder="কমপক্ষে ৬ অক্ষর">
+</div>
+<button class="primary" onclick="signup()">Create My Account</button>
+<span class="link" onclick="showForm('login')">Already have an account? Login</span>
+</div>
+
+<div id="forgotForm" class="hidden">
+<h2>Reset Password</h2>
+<p class="muted">আপনার ইমেইল দিলে পাসওয়ার্ড রিসেট লিংক পাঠানো হবে।</p>
+<div class="field">
+<label>Email Address</label>
+<input id="forgotEmail" type="email" placeholder="আপনার ইমেইল">
+</div>
+<button class="primary" onclick="forgotPassword()">Send Reset Link</button>
+<span class="link" onclick="showForm('login')">Back to Login</span>
+</div>
 </section>
 
-<section id="app">
-<div class="card">
-<h2>Welcome to Bondly! 👋</h2>
-<p class="muted">Connect • Chat • Share</p>
-<p id="welcome" style="margin-top:10px;font-weight:bold"></p>
+<section id="appArea" class="hidden">
+<div class="panel">
+<div class="profile">
+<div class="avatar" id="avatar">B</div>
+<div>
+<h2 id="welcome">Welcome to Bondly!</h2>
+<p class="muted" id="userEmail"></p>
+</div>
+</div>
+<p class="muted">আপনার বন্ধুদের সঙ্গে যুক্ত হোন, মনের কথা লিখুন এবং পোস্ট শেয়ার করুন।</p>
 </div>
 
-<div class="card">
-<h2>What's on your mind? ✨</h2>
+<div class="panel">
+<h2>Create a Post</h2>
 <textarea id="postContent" placeholder="আপনার মনের কথা লিখুন..."></textarea>
-<button class="primary" onclick="createPost()">Publish Post</button>
+<button class="primary" onclick="createPost()">Share Post</button>
+<div id="postMessage" class="msg"></div>
 </div>
 
-<h2 style="margin:20px 5px">Your Feed 🌍</h2>
-<div id="feed"></div>
+<h2 style="margin:22px 5px">Latest Posts</h2>
+<div id="feed"><p class="empty">পোস্ট লোড হচ্ছে...</p></div>
 </section>
 </main>
 
+<footer>© 2026 Bondly. Connect Together.</footer>
+
 <script>
-// SUPABASE CONFIGURATION
 const SUPABASE_URL = "https://bokzlnjktwhugwjpotnx.supabase.co";
+const SUPABASE_KEY = "sb_publishable_06Xlq5qXzlGI53_JLhHyaw_-8zG2AgP";
 
-// এখানে নিজের Supabase anon/public key বসাবে
-const SUPABASE_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const db = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let currentUser = null;
-let isSignup = false;
 
-const $ = id => document.getElementById(id);
-
-function status(msg){$("status").textContent=msg;}
-
-function switchAuth(){
-isSignup=!isSignup;
-$("authTitle").textContent=isSignup?"Create Your Bondly Account":"Welcome to Bondly 👋";
-$("authDesc").textContent=isSignup?"Join our community today.":"Connect with people around you.";
-$("nameField").style.display=isSignup?"block":"none";
-$("authButton").textContent=isSignup?"Create Account":"Login to Bondly";
-$("switchText").textContent=isSignup?"আগেই অ্যাকাউন্ট আছে?":"নতুন অ্যাকাউন্ট?";
-$("switchButton").textContent=isSignup?"Login":"Sign Up";
+function message(text,type="error",target="message"){
+ const el=document.getElementById(target);
+ el.textContent=text;
+ el.className="msg show "+type;
 }
 
-async function authenticate(){
-const email=$("email").value.trim();
-const password=$("password").value;
-if(!email||!password){alert("Email ও Password লিখুন");return;}
-if(SUPABASE_KEY.includes("PASTE_")){
-alert("প্রথমে Supabase anon public key বসাতে হবে।");
-return;
+function hideMessage(target="message"){
+ const el=document.getElementById(target);
+ el.className="msg";
 }
-status("অ্যাকাউন্ট যাচাই হচ্ছে...");
-let result;
-if(isSignup){
-const name=$("fullName").value.trim();
-if(!name){alert("আপনার নাম লিখুন");return;}
-result=await db.auth.signUp({
-email,password,
-options:{data:{full_name:name}}
-});
-}else{
-result=await db.auth.signInWithPassword({email,password});
+
+function showForm(name){
+ ["loginForm","signupForm","forgotForm"].forEach(id=>{
+  document.getElementById(id).classList.add("hidden");
+ });
+ document.getElementById(name+"Form").classList.remove("hidden");
+ document.getElementById("loginTab").classList.toggle("active",name==="login");
+ document.getElementById("signupTab").classList.toggle("active",name==="signup");
+ hideMessage();
 }
-if(result.error){alert(result.error.message);status("আবার চেষ্টা করুন");return;}
-if(isSignup && !result.data.session){
-status("আপনার ইমেইল যাচাই করুন, তারপর Login করুন।");
-alert("Signup হয়েছে। ইমেইলে verification link পাঠানো হলে সেটি যাচাই করুন।");
-return;
+
+async function signup(){
+ hideMessage();
+ const name=document.getElementById("fullName").value.trim();
+ const email=document.getElementById("signupEmail").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const password=document.getElementById("signupPassword").value;
+
+ if(!name||!email||!password){
+  message("নাম, ইমেইল ও পাসওয়ার্ড পূরণ করুন।");return;
+ }
+ if(password.length<6){
+  message("পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।");return;
+ }
+
+ const {data,error}=await db.auth.signUp({
+  email,password,
+  options:{data:{full_name:name,phone:phone}}
+ });
+
+ if(error){message(error.message);return;}
+
+ if(data.session){
+  await loadApp(data.session.user);
+ }else{
+  message("অ্যাকাউন্ট তৈরি হয়েছে। ইমেইল যাচাই করে Login করুন।","success");
+  showForm("login");
+ }
 }
-if(result.data.session) await loadApp(result.data.session.user);
+
+async function login(){
+ hideMessage();
+ const email=document.getElementById("loginEmail").value.trim();
+ const password=document.getElementById("loginPassword").value;
+ if(!email||!password){message("ইমেইল ও পাসওয়ার্ড লিখুন।");return;}
+
+ const {data,error}=await db.auth.signInWithPassword({email,password});
+ if(error){message(error.message);return;}
+ await loadApp(data.user);
 }
 
 async function logout(){
-await db.auth.signOut();
-currentUser=null;
-$("app").style.display="none";
-$("auth").style.display="block";
-$("logout").style.display="none";
-status("আপনি Logout করেছেন");
+ await db.auth.signOut();
+ currentUser=null;
+ document.getElementById("authArea").classList.remove("hidden");
+ document.getElementById("appArea").classList.add("hidden");
+ document.getElementById("logoutBtn").classList.add("hidden");
+ showForm("login");
+}
+
+async function forgotPassword(){
+ const email=document.getElementById("forgotEmail").value.trim();
+ if(!email){message("আপনার ইমেইল লিখুন।");return;}
+
+ const {error}=await db.auth.resetPasswordForEmail(email,{
+  redirectTo:location.origin+location.pathname
+ });
+ if(error){message(error.message);return;}
+ message("পাসওয়ার্ড রিসেট লিংক ইমেইলে পাঠানো হয়েছে।","success");
 }
 
 async function loadApp(user){
-currentUser=user;
-$("auth").style.display="none";
-$("app").style.display="block";
-$("logout").style.display="block";
-const name=user.user_metadata?.full_name||user.email;
-$("welcome").textContent="Hello, "+name;
-status("Bondly is ready!");
-await loadFeed();
+ currentUser=user;
+ document.getElementById("authArea").classList.add("hidden");
+ document.getElementById("appArea").classList.remove("hidden");
+ document.getElementById("logoutBtn").classList.remove("hidden");
+
+ const name=user.user_metadata?.full_name || user.email.split("@")[0];
+ document.getElementById("welcome").textContent="Welcome, "+name+"!";
+ document.getElementById("userEmail").textContent=user.email;
+ document.getElementById("avatar").textContent=name.charAt(0).toUpperCase();
+
+ await loadPosts();
 }
 
 async function createPost(){
-const content=$("postContent").value.trim();
-if(!content){alert("কিছু লিখুন");return;}
-const {error}=await db.from("posts").insert({
-user_id:currentUser.id,
-content:content
-});
-if(error){alert(error.message);return;}
-$("postContent").value="";
-await loadFeed();
+ const content=document.getElementById("postContent").value.trim();
+ if(!content){message("পোস্টে কিছু লিখুন।","error","postMessage");return;}
+ if(!currentUser){message("আগে Login করুন।","error","postMessage");return;}
+
+ const {error}=await db.from("posts").insert({
+  user_id:currentUser.id,
+  content:content
+ });
+
+ if(error){message("পোস্ট করা যায়নি: "+error.message,"error","postMessage");return;}
+
+ document.getElementById("postContent").value="";
+ message("আপনার পোস্ট প্রকাশিত হয়েছে!","success","postMessage");
+ await loadPosts();
 }
 
-async function loadFeed(){
-const feed=$("feed");
-feed.innerHTML='<div class="empty">Loading posts...</div>';
-const {data:posts,error}=await db.from("posts")
-.select("*").order("created_at",{ascending:false}).limit(50);
-if(error){feed.textContent="Feed error: "+error.message;return;}
-if(!posts.length){feed.innerHTML='<div class="card empty">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি আপনিই করুন! 🎉</div>';return;}
+async function loadPosts(){
+ const feed=document.getElementById("feed");
+ feed.innerHTML='<p class="empty">পোস্ট লোড হচ্ছে...</p>';
 
-feed.innerHTML="";
-for(const post of posts){
-const [{data:profile},{data:likes},{data:myLike},{data:comments}]=await Promise.all([
-db.from("profiles").select("full_name,username").eq("id",post.user_id).maybeSingle(),
-db.from("likes").select("id",{count:"exact"}).eq("post_id",post.id),
-db.from("likes").select("id").eq("post_id",post.id).eq("user_id",currentUser.id).maybeSingle(),
-db.from("comments").select("*").eq("post_id",post.id).order("created_at",{ascending:true})
-]);
+ const {data,error}=await db
+  .from("posts")
+  .select("id,content,user_id,created_at")
+  .order("created_at",{ascending:false})
+  .limit(50);
 
-const card=document.createElement("article");
-card.className="card";
+ if(error){
+  feed.innerHTML='<p class="empty">পোস্ট লোড হয়নি: '+escapeHTML(error.message)+'</p>';
+  return;
+ }
 
-const head=document.createElement("div");
-head.className="posthead";
-const avatar=document.createElement("div");
-avatar.className="avatar";
-avatar.textContent=(profile?.full_name||"U").charAt(0).toUpperCase();
-const details=document.createElement("div");
-const name=document.createElement("div");
-name.className="name";
-name.textContent=profile?.full_name||profile?.username||"Bondly User";
-const date=document.createElement("div");
-date.className="muted";
-date.textContent=new Date(post.created_at).toLocaleString();
-details.append(name,date);
-head.append(avatar,details);
+ if(!data||data.length===0){
+  feed.innerHTML='<p class="empty">এখনো কোনো পোস্ট নেই। প্রথম পোস্টটি আপনিই করুন!</p>';
+  return;
+ }
 
-const body=document.createElement("div");
-body.className="post";
-body.textContent=post.content;
+ const userIds=[...new Set(data.map(p=>p.user_id))];
+ const {data:profiles}=await db.from("profiles")
+  .select("id,full_name")
+  .in("id",userIds);
 
-const actions=document.createElement("div");
-actions.className="actions";
-const like=document.createElement("button");
-like.textContent=(myLike?"❤️":"🤍")+" Like ("+(likes?.length||0)+")";
-if(myLike)like.className="liked";
-like.onclick=()=>toggleLike(post.id,!!myLike);
+ const names={};
+ (profiles||[]).forEach(p=>names[p.id]=p.full_name);
 
-const commentButton=document.createElement("button");
-commentButton.textContent="💬 Comment ("+(comments?.length||0)+")";
-actions.append(like,commentButton);
-
-const commentArea=document.createElement("div");
-commentArea.className="comments";
-comments?.forEach(c=>{
-const p=document.createElement("p");
-p.textContent=c.content;
-commentArea.append(p);
-});
-
-const inputRow=document.createElement("div");
-inputRow.className="commentbox";
-const input=document.createElement("input");
-input.placeholder="একটি মন্তব্য লিখুন...";
-const send=document.createElement("button");
-send.textContent="Send";
-send.onclick=()=>addComment(post.id,input.value);
-inputRow.append(input,send);
-
-commentButton.onclick=()=>inputRow.scrollIntoView({behavior:"smooth",block:"center"});
-card.append(head,body,actions,commentArea,inputRow);
-feed.append(card);
-}
+ feed.innerHTML="";
+ data.forEach(post=>{
+  const card=document.createElement("article");
+  card.className="post";
+  const heading=document.createElement("div");
+  heading.className="post-head";
+  const avatar=document.createElement("div");
+  avatar.className="avatar";
+  avatar.textContent=(names[post.user_id]||"B").charAt(0).toUpperCase();
+  const info=document.createElement("div");
+  const name=document.createElement("strong");
+  name.textContent=names[post.user_id]||"Bondly User";
+  const date=document.createElement("br");
+  const small=document.createElement("small");
+  small.textContent=post.created_at?new Date(post.created_at).toLocaleString():"";
+  info.append(name,date,small);
+  heading.append(avatar,info);
+  const content=document.createElement("p");
+  content.textContent=post.content;
+  card.append(heading,content);
+  feed.append(card);
+ });
 }
 
-async function toggleLike(postId,liked){
-if(liked){
-const {error}=await db.from("likes").delete()
-.eq("post_id",postId).eq("user_id",currentUser.id);
-if(error)alert(error.message);
-}else{
-const {error}=await db.from("likes").insert({
-post_id:postId,user_id:currentUser.id
-});
-if(error)alert(error.message);
-}
-await loadFeed();
-}
-
-async function addComment(postId,value){
-const content=value.trim();
-if(!content)return;
-const {error}=await db.from("comments").insert({
-post_id:postId,user_id:currentUser.id,content
-});
-if(error){alert(error.message);return;}
-await loadFeed();
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
 async function start(){
-if(SUPABASE_KEY.includes("PASTE_")){
-status("Supabase public key সেটআপ প্রয়োজন।");
-$("auth").style.display="block";
-$("logout").style.display="none";
-return;
+ const {data}=await db.auth.getSession();
+ if(data.session) await loadApp(data.session.user);
 }
-const {data,error}=await db.auth.getSession();
-if(error){status(error.message);return;}
-if(data.session)await loadApp(data.session.user);
-else{
-status("Welcome to Bondly");
-$("auth").style.display="block";
-$("logout").style.display="none";
-}
+
 db.auth.onAuthStateChange((event,session)=>{
-if(event==="SIGNED_IN" && session && !currentUser){
-setTimeout(()=>loadApp(session.user),0);
-}
+ if(event==="PASSWORD_RECOVERY"){
+  alert("পাসওয়ার্ড রিসেটের জন্য ইমেইলের নির্দেশনা অনুসরণ করুন।");
+ }
 });
-}
+
 start();
 </script>
 </body>
